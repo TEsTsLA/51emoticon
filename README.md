@@ -37,3 +37,17 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+
+## nodemon.json
+```json
+{
+  "watch": [
+    "src"
+  ],
+  "ext": "ts",
+  "ignore": [
+    "src/**/*.spec.ts"
+  ],
+  "exec": "ts-node -r tsconfig-paths/register src/main.ts"
+}
+```
