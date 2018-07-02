@@ -12,8 +12,6 @@ async function bootstrap() {
   await app.use(compression());
   await app.use(cookieParser());
   await app.use(cors());
-  await app.listen(3001, '0.0.0.0', () => {
-
-  });
+  await app.listen(3001, '0.0.0.0', () => {});
 }
 bootstrap();
