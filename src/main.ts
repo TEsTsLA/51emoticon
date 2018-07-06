@@ -3,9 +3,7 @@ import { AppModule } from './app.module';
 import * as express from 'express';
 import * as compression from 'compression';
 import * as cookieParser from 'cookie-parser';
-import {
-  resolve
-} from 'path';
+import { resolve } from 'path';
 // import * as cors from 'cors';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
@@ -18,7 +16,7 @@ async function bootstrap() {
   await app.use(cookieParser());
   // app.enableCors();
   // await app.use(cors());
-  app.setBaseViewsDir(resolve('src','views'));
+  app.setBaseViewsDir(resolve('src', 'views'));
   app.setViewEngine('hbs');
   // swagger
   const options = new DocumentBuilder()

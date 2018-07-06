@@ -1,4 +1,14 @@
-import { Controller, Get, Render, Post, Body, ValidationPipe, UseInterceptors, FileInterceptor, UploadedFile } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Render,
+  Post,
+  Body,
+  ValidationPipe,
+  UseInterceptors,
+  FileInterceptor,
+  UploadedFile,
+} from '@nestjs/common';
 import { LayoutService } from './layout.service';
 import { moveCursor } from 'readline';
 import { LayoutDto } from './layout.dto';
@@ -19,18 +29,20 @@ export class LayoutController {
   }
   @Get('all')
   // @ApiImplicitQuery({ name: 'role', enum: ['Admin', 'Moderator', 'User'] })
-  findAll(){
-    return this.layoutService.findAll()
+  findAll() {
+    return this.layoutService.findAll();
   }
   @Get('mvc')
   @Render('index')
-  moveCursor(){
+  moveCursor() {
     return { message: 'Hello world!' };
-
   }
   @Post('add')
-  add(@Body(new ValidationPipe()) body:LayoutDto){
-    return this.layoutService.add(body)
+  add(
+    @Body(new ValidationPipe())
+    body: LayoutDto,
+  ) {
+    return this.layoutService.add(body);
   }
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))

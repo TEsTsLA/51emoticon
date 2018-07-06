@@ -43,7 +43,7 @@ export class ResourceController {
     @Body(new ValidationPipe())
     request: RequestDto,
   ) {
-    return request; 
+    return request;
   }
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))

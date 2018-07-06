@@ -3,11 +3,13 @@ import { Expose } from 'class-transformer';
 import { ApiModelProperty } from '@nestjs/swagger';
 export class PageStateDto {
   @ApiModelProperty()
-  @IsInt() pageNumber: number;
+  @IsInt()
+  pageNumber: number;
   @ApiModelProperty()
-  @IsInt() pageSize: number;
+  @IsInt()
+  pageSize: number;
   @Expose()
   get pageMsg() {
-    return `pageNumber is ${this.pageNumber};pageSize is ${this.pageSize}`
+    return `pageNumber is ${this.pageNumber};pageSize is ${this.pageSize}`;
   }
 }

@@ -1,6 +1,5 @@
-import { IsString } from "class-validator";
+import { IsString } from 'class-validator';
 
-export class LayoutDto{
-    @IsString()
-    name:string
+export class LayoutDto {
+  @IsString() name: string;
 }

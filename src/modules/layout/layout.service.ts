@@ -11,9 +11,7 @@ export class LayoutService {
   constructor(
     @InjectRepository(Layout)
     private readonly LayoutRepository: Repository<Layout>,
-  ){
-
-  }
+  ) {}
   static LAYOUT_PATH = resolve('public', 'img', 'layout', 'carousel');
   static CAROUSEL_PATH = resolve('public', 'img', 'layout', 'carousel');
   getCarouselPath() {
@@ -21,19 +19,19 @@ export class LayoutService {
       return '/img/layout/carousel/' + imgPath;
     });
   }
-  async findAll():Promise<Layout[]>{
+  async findAll(): Promise<Layout[]> {
     return await this.LayoutRepository.find();
   }
 
-  async add(layout:LayoutDto){
-    let _save
-    _save = plainToClass(Layout,layout)
+  async add(layout: LayoutDto) {
+    let _save;
+    _save = plainToClass(Layout, layout);
     // let _save = new Layout();
     // _save.name = `name_${Math.floor(Math.random()*100)}`
 
-    return await this.LayoutRepository.save(_save)
+    return await this.LayoutRepository.save(_save);
   }
-  async upload(file:File){
-    console.log(file)
+  async upload(file: File) {
+    console.log(file);
   }
 }

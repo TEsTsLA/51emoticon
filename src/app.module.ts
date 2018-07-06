@@ -4,9 +4,9 @@ import { AppService } from './app.service';
 import { ResourceModule } from './modules/resource/resource.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
-import { LayoutModule } from './modules/layout/layout.module'; 
+import { LayoutModule } from './modules/layout/layout.module';
 @Module({
-  imports: [LayoutModule, ResourceModule, TypeOrmModule.forRoot(),],
+  imports: [LayoutModule, ResourceModule, TypeOrmModule.forRoot()],
   controllers: [AppController],
   providers: [AppService],
 })
