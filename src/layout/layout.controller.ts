@@ -15,4 +15,8 @@ export class LayoutController {
       },
     };
   }
+  @Get('all')
+  findAll(){
+    return this.layoutService.findAll()
+  }
 }
