@@ -1,11 +1,10 @@
 import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { LayoutModule } from './layout/layout.module';
-import { LayoutService } from './layout/layout.service';
-import { ResourceModule } from './resource/resource.module';
+import { ResourceModule } from './modules/resource/resource.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
+import { LayoutModule } from './modules/layout/layout.module'; 
 @Module({
   imports: [LayoutModule, ResourceModule, TypeOrmModule.forRoot(),],
   controllers: [AppController],

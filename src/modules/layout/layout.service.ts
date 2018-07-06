@@ -4,6 +4,8 @@ import { resolve } from 'path';
 import { Layout } from './layout.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { LayoutDto } from './layout.dto';
+import { plainToClass } from 'class-transformer';
 @Injectable()
 export class LayoutService {
   constructor(
@@ -21,5 +23,17 @@ export class LayoutService {
   }
   async findAll():Promise<Layout[]>{
     return await this.LayoutRepository.find();
+  }
+
+  async add(layout:LayoutDto){
+    let _save
+    _save = plainToClass(Layout,layout)
+    // let _save = new Layout();
+    // _save.name = `name_${Math.floor(Math.random()*100)}`
+
+    return await this.LayoutRepository.save(_save)
+  }
+  async upload(file:File){
+    console.log(file)
   }
 }

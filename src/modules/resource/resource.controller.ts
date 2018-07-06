@@ -6,6 +6,9 @@ import {
   Param,
   Query,
   Body,
+  UseInterceptors,
+  FileInterceptor,
+  UploadedFile,
   // ValidationPipe,
 } from '@nestjs/common';
 import Expression from './model/expression.class';
@@ -41,5 +44,10 @@ export class ResourceController {
     request: RequestDto,
   ) {
     return request; 
+  }
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file'))
+  uploadFile(@UploadedFile() file) {
+    console.log(file);
   }
 }
