@@ -8,14 +8,17 @@ import {
   UseInterceptors,
   FileInterceptor,
   UploadedFile,
+  Req,
 } from '@nestjs/common';
 import { LayoutService } from './layout.service';
 import { moveCursor } from 'readline';
 import { LayoutDto } from './layout.dto';
+import { resolve } from 'path';
+import { createFile } from '../../utils/file.util'
 
 @Controller('layout')
 export class LayoutController {
-  constructor(private readonly layoutService: LayoutService) {}
+  constructor(private readonly layoutService: LayoutService) { }
   @Get('carousel')
   carousel() {
     return {
@@ -46,7 +49,11 @@ export class LayoutController {
   }
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file) {
-    console.log(file);
+  uploadFile(@UploadedFile() file, @Body('path') path) {
+    // console.log(file);
+    console.log(resolve('public'))
+    return createFile(resolve('public','img',file.originalname), file.buffer).then(res => {
+      return 'success'
+    }) 
   }
 }
