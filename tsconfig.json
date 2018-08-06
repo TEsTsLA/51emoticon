@@ -15,7 +15,21 @@
     "baseUrl": "./src",
     "paths": {
       "@utils/*": ["./utils/*"]
-    }
+    },
+    // 这里是解决graphql安装问题
+    "lib": [
+      "es6",
+      "dom",
+      "es2015.core",
+      "es2015.collection",
+      "es2015.generator",
+      "es2015.iterable",
+      "es2015.proxy",
+      "es2015.reflect",
+      "es2015.symbol",
+      "es2015.symbol.wellknown",
+      "esnext.asynciterable"
+    ]
   },
   "include": [
     "src/**/*"
