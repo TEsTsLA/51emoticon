@@ -15,10 +15,15 @@ import Expression from './model/expression.class';
 import { PageStateDto } from './dto/page-state.dto';
 import { ValidationPipe } from './validation.pipe';
 import { RequestDto } from './dto/request.dto';
+import { create } from 'domain';
+import { ResourceDto } from './dto/resource.dto';
 
 @Controller('resource')
 export class ResourceController {
-  constructor(private resourceService: ResourceService) {}
+  constructor(
+    private resourceService: ResourceService,
+    
+  ) {}
   @Get('expression/:id')
   list(@Query() query, @Param() param) {
     return {
@@ -49,5 +54,9 @@ export class ResourceController {
   @UseInterceptors(FileInterceptor('file'))
   uploadFile(@UploadedFile() file) {
     console.log(file);
+  }
+  @Post('create')
+  async create(@Body(new ValidationPipe()) resource: ResourceDto){
+    return await this.resourceService.save(resource)
   }
 }
