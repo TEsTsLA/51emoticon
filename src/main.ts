@@ -9,7 +9,9 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const server = express();
-  const app = await NestFactory.create(AppModule, server, { cors: true });
+  const app = await NestFactory.create(AppModule, { 
+    cors: true,
+  });
   await app.use(express.static('public', { maxAge: 7 * 24 * 60 * 60 * 1000 }));
   // app.useStaticAssets(__dirname + '/public');
   await app.use(compression());
