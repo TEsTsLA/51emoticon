@@ -5,16 +5,34 @@ import { ResourceModule } from './modules/resource/resource.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { LayoutModule } from './modules/layout/layout.module';
+import { GraphQLFactory, GraphQLModule } from '@nestjs/graphql';
+import { ApolloServer,gql } from 'apollo-server-express';
+import { EventsModule } from './modules/events/events.module';
+import { MathModule } from './microservices/math/math.module';
 @Module({
-  imports: [LayoutModule, ResourceModule, TypeOrmModule.forRoot()],
+  imports: [LayoutModule, ResourceModule,EventsModule, TypeOrmModule.forRoot(),GraphQLModule,MathModule],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule implements NestModule {
-  constructor(private readonly connection: Connection) {
+  constructor(private readonly connection: Connection,
+    private readonly graphQLFactory: GraphQLFactory) {
     // console.log(connection)
   }
-  public configure(consumer: MiddlewareConsumer): void {}
+  configureGraphQL(app: any) {
+    // Same as nestjs docs - graphql guide
+    const typeDefs = this.graphQLFactory.mergeTypesByPaths('./**/*.graphql');
+    const schema = this.graphQLFactory.createSchema({ typeDefs });
+
+    // this changed. Apollo lib internally apply app.use(...)
+    // and other middlewares to work
+    // but it needs app object
+    const server = new ApolloServer({ schema });
+    server.applyMiddleware({ app });
+  }
+  public configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(this.configureGraphQL).forRoutes('/graphql');
+  }
 }
 
 // {
