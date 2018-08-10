@@ -8,6 +8,7 @@ import { resolve } from 'path';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { Transport } from '@nestjs/microservices';
+import { grpcClientOptions } from './rpc/grpc-client.options';
 
 async function bootstrap() {
   const server = express();
@@ -15,13 +16,16 @@ async function bootstrap() {
     cors: true,
   });
   // TCP-微服务
-  app.connectMicroservice({
-    transport: Transport.TCP,
-    options: {
-      retryAttempts:5,
-      retryDelay:300,
-    }
-  })
+  // app.connectMicroservice({
+  //   transport: Transport.TCP,
+  //   options: {
+  //     retryAttempts:5,
+  //     retryDelay:300,
+  //   }
+  // })
+  // RPC - 微服务
+  app.connectMicroservice(grpcClientOptions)
+
   await app.startAllMicroservicesAsync();
   
   await app.use(express.static('public', { maxAge: 7 * 24 * 60 * 60 * 1000 }));

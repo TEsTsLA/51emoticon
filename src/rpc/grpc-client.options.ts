@@ -5,6 +5,7 @@ export const grpcClientOptions: ClientOptions = {
   transport: Transport.GRPC,
   options: {
     package: 'hero',
-    protoPath: join(__dirname, './hero/hero.proto'),
+    // protoPath: join(__dirname, './hero.proto'),
+    protoPath: 'E:\\51emoticon\\src\\rpc\\hero.proto'
   },
 };

@@ -9,8 +9,9 @@ import { GraphQLFactory, GraphQLModule } from '@nestjs/graphql';
 import { ApolloServer,gql } from 'apollo-server-express';
 import { EventsModule } from './modules/events/events.module';
 import { MathModule } from './microservices/math/math.module';
+import { HeroModule } from './rpc/hero.module';
 @Module({
-  imports: [LayoutModule, ResourceModule,EventsModule, TypeOrmModule.forRoot(),GraphQLModule,MathModule],
+  imports: [LayoutModule, ResourceModule,EventsModule, TypeOrmModule.forRoot(),GraphQLModule,MathModule,HeroModule],
   controllers: [AppController],
   providers: [AppService],
 })
