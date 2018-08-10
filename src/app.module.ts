@@ -10,6 +10,7 @@ import { ApolloServer,gql } from 'apollo-server-express';
 import { EventsModule } from './modules/events/events.module';
 import { MathModule } from './microservices/math/math.module';
 import { HeroModule } from './rpc/hero.module';
+import { MongooseModule } from '@nestjs/mongoose';
 @Module({
   imports: [LayoutModule, ResourceModule,EventsModule, TypeOrmModule.forRoot(),GraphQLModule,MathModule,HeroModule],
   controllers: [AppController],
