@@ -46,6 +46,12 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
   app.useGlobalPipes(new ValidationPipe());
+
+  // With Nestjs context get the app module to call our configure method
+  const appModule = app.get(AppModule);
+  appModule.configureGraphQL(app);
+
+
   await app.listen(3001, '0.0.0.0', () => {});
 }
 bootstrap();

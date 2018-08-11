@@ -34,10 +34,11 @@ export class AppModule implements NestModule {
     // and other middlewares to work
     // but it needs app object
     const server = new ApolloServer({ schema });
-    server.applyMiddleware({ app });
+    const path = '/graphql'
+    server.applyMiddleware({ app, path });
   }
   public configure(consumer: MiddlewareConsumer): void {
-    consumer.apply(this.configureGraphQL).forRoutes('/graphql');
+    // consumer.apply(this.configureGraphQL).forRoutes('/graphql');
   }
 }
 
