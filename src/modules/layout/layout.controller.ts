@@ -26,13 +26,18 @@ import { TransformInterceptor } from '../common/transform.interceptor';
 import { ErrorsInterceptor } from '../common/exception.interceptor';
 import { TimeoutInterceptor } from '../common/timeout.interceptor';
 import { HttpExceptionFilter } from '../common/http-exception.filter';
+import { ApiUseTags, ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('layout')
 @UseGuards(RolesGuard)
 @UseInterceptors(LoggingInterceptor,TransformInterceptor,ErrorsInterceptor,TimeoutInterceptor)
+@ApiBearerAuth()
 export class LayoutController {
   constructor(private readonly layoutService: LayoutService) {}
   @Get('carousel')
+  @ApiUseTags('layout')
+  @ApiOperation({ title: 'Create cat' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   carousel() {
     return {
       statusCode: '0000',
