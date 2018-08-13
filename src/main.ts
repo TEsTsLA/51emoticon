@@ -48,8 +48,8 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   // With Nestjs context get the app module to call our configure method
-  const appModule = app.get(AppModule);
-  appModule.configureGraphQL(app);
+  // const appModule = app.get(AppModule);
+  // appModule.configureGraphQL(app);
 
 
   await app.listen(3001, '0.0.0.0', () => {});

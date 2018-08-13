@@ -6,7 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { LayoutModule } from './modules/layout/layout.module';
 import { GraphQLFactory, GraphQLModule } from '@nestjs/graphql';
-import { ApolloServer,gql } from 'apollo-server-express';
+// import { ApolloServer,gql } from 'apollo-server-express';
+import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
 import { EventsModule } from './modules/events/events.module';
 import { MathModule } from './microservices/math/math.module';
 import { HeroModule } from './rpc/hero.module';
@@ -25,20 +26,39 @@ export class AppModule implements NestModule {
     private readonly graphQLFactory: GraphQLFactory) {
     // console.log(connection)
   }
-  configureGraphQL(app: any) {
-    // Same as nestjs docs - graphql guide
-    const typeDefs = this.graphQLFactory.mergeTypesByPaths('./**/*.graphql');
-    const schema = this.graphQLFactory.createSchema({ typeDefs });
+  // configureGraphQL(app: any) {
+  //   // Same as nestjs docs - graphql guide
+  //   const typeDefs = this.graphQLFactory.mergeTypesByPaths('./**/*.graphql');
+  //   const schema = this.graphQLFactory.createSchema({ typeDefs });
 
-    // this changed. Apollo lib internally apply app.use(...)
-    // and other middlewares to work
-    // but it needs app object
-    const server = new ApolloServer({ schema });
-    const path = '/graphql'
-    server.applyMiddleware({ app, path });
+  //   // this changed. Apollo lib internally apply app.use(...)
+  //   // and other middlewares to work
+  //   // but it needs app object
+  //   const server = new ApolloServer({ schema });
+  //   const path = '/graphql'
+  //   server.applyMiddleware({ app, path });
+  // }
+  public configure(consumer: MiddlewareConsumer) {
+    const schema = this.createSchema();
+    // this.subscriptionsService.createSubscriptionServer(schema);
+
+    consumer
+      .apply(
+        graphiqlExpress({
+          endpointURL: '/graphql',
+          // subscriptionsEndpoint: `ws://localhost:3001/subscriptions`,
+        }),
+      )
+      .forRoutes('/graphiql')
+      .apply(graphqlExpress(req => ({ schema, rootValue: req })))
+      .forRoutes('/graphql');
   }
-  public configure(consumer: MiddlewareConsumer): void {
-    // consumer.apply(this.configureGraphQL).forRoutes('/graphql');
+  // public configure(consumer: MiddlewareConsumer): void {
+  //   // consumer.apply(this.configureGraphQL).forRoutes('/graphql');
+  // }
+  createSchema() {
+    const typeDefs = this.graphQLFactory.mergeTypesByPaths('./**/*.graphql');
+    return this.graphQLFactory.createSchema({ typeDefs });
   }
 }
 
