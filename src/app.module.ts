@@ -13,6 +13,8 @@ import { MathModule } from './microservices/math/math.module';
 import { HeroModule } from './rpc/hero.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CatsModule } from './mongoose/cats.module';
+import { GraphQLJSON  } from 'graphql-type-json';
+
 @Module({
   imports: [LayoutModule, ResourceModule,EventsModule, 
     TypeOrmModule.forRoot(),GraphQLModule,

@@ -9,6 +9,7 @@ import {
   UseInterceptors,
   FileInterceptor,
   UploadedFile,
+  Inject,
   // ValidationPipe,
 } from '@nestjs/common';
 import Expression from './model/expression.class';
@@ -22,7 +23,7 @@ import { ResourceDto } from './dto/resource.dto';
 export class ResourceController {
   constructor(
     private resourceService: ResourceService,
-    
+    @Inject('resourceProvider') private readonly resourceProvider:{get:Function ,set:Function},
   ) {}
   @Get('expression/:id')
   list(@Query() query, @Param() param) {
@@ -58,5 +59,9 @@ export class ResourceController {
   @Post('create')
   async create(@Body(new ValidationPipe()) resource: ResourceDto){
     return await this.resourceService.save(resource)
+  }
+  @Get('providers')
+  providers (){
+    return this.resourceProvider.get()
   }
 }

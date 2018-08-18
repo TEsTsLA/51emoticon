@@ -1,0 +1,56 @@
+type Query {
+  getCats: [Cat]
+  cat(id: ID!): Cat
+  catByHumanId(id: ID!): Cat
+  getDogs:[Dog],
+  dog:Dog,
+}
+
+type Mutation {
+  createCat(name: String): Cat
+}
+
+type Subscription {
+  catCreated: Cat
+}
+
+type Cat {
+  id: String
+  name: String
+  age: Int
+  humanId: Int,
+  dog:[Dog]
+}
+type Dog{
+  id: String
+  name: String
+  age: Int
+  humanId: Int
+}
+type Author {
+  id: Int!
+  firstName: String
+  lastName: String
+  posts: [Post]
+}
+
+type Post {
+  id: Int!
+  title: String
+  votes: Int
+}
+
+type Query {
+  author(id: Int!): Author
+}
+type Mutation {
+  upvotePost(postId: Int!): Post
+}
+type Comment {
+  id: String
+  content: String
+}
+
+type Subscription {
+  commentAdded(repoFullName: String!): Comment
+}

@@ -9,6 +9,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { Transport } from '@nestjs/microservices';
 import { grpcClientOptions } from './rpc/grpc-client.options';
+import { CatsService } from './mongoose/cats.service';
 
 async function bootstrap() {
   const server = express();
@@ -25,7 +26,8 @@ async function bootstrap() {
   // })
   // RPC - 微服务
   app.connectMicroservice(grpcClientOptions)
-
+  // let catServer =  app.get(CatsService)
+  // console.log(catServer._cat())
   await app.startAllMicroservicesAsync();
   
   await app.use(express.static('public', { maxAge: 7 * 24 * 60 * 60 * 1000 }));

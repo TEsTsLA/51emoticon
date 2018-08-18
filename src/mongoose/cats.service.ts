@@ -12,8 +12,14 @@ export class CatsService {
     const createdCat = new this.catModel(createCatDto);
     return await createdCat.save();
   }
-
+ 
   async findAll(): Promise<Cat[]> {
     return await this.catModel.find().exec();
+  }
+  async findOneById(id):Promise<Cat> {
+    return await this.catModel.findById(id).exec();
+  }
+  _cat(){
+    return {}
   }
 }
