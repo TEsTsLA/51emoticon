@@ -23,7 +23,7 @@ export class AuthorResolver {
     return find(authors, { id: args.id });
   }
 
-  @ResolveProperty('posts') 
+  @ResolveProperty('posts')
   getPosts(author, args, context, info) {
     return filter(posts, { authorId: author.id });
   }
@@ -38,27 +38,27 @@ export class AuthorResolver {
   }
   @Subscription()
   commentAdded() {
-    return { 
+    return {
       subscribe: () => pubSub.asyncIterator('commentAdded'),
     };
   }
-@Resolver('User')
-@DelegateProperty('chirps')
-findChirpsByUserId() {
-  return (mergeInfo: MergeInfo) => ({
-    fragment: `fragment UserFragment on User { id }`,
-    resolve(parent, args, context, info) {
-      const authorId = parent.id;
-      return mergeInfo.delegate(
-        'query',
-        'chirpsByAuthorId',
-        {
-          authorId,
-        },
-        context,
-        info,
-      );
-    },
-  });
-}
+  @Resolver('User')
+  @DelegateProperty('chirps')
+  findChirpsByUserId() {
+    return (mergeInfo: MergeInfo) => ({
+      fragment: `fragment UserFragment on User { id }`,
+      resolve(parent, args, context, info) {
+        const authorId = parent.id;
+        return mergeInfo.delegate(
+          'query',
+          'chirpsByAuthorId',
+          {
+            authorId,
+          },
+          context,
+          info,
+        );
+      },
+    });
+  }
 }

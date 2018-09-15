@@ -21,7 +21,13 @@ export class CatsResolvers {
   constructor(
     private readonly catsService: CatsService,
     private readonly dogsService: DogsService,
-  ) {}
+  ) { }
+
+  postData = [
+    { id: '1', imageUrl: 'http://localhost:3001/img/layout/carousel/swipe-01.jpg', description: '/swipe-01.jpg' },
+    { id: '2', imageUrl: 'http://localhost:3001/img/layout/carousel/swipe-02.jpg', description: '/swipe-02.jpg' },
+    { id: '3', imageUrl: 'http://localhost:3001/img/layout/carousel/swipe-03.jpg', description: '/swipe-03.jpg' }
+  ]
 
   @Query()
   @UseGuards(CatsGuard)
@@ -39,7 +45,7 @@ export class CatsResolvers {
   @Mutation('createCat')
   async create(obj, args: Cat, context, info): Promise<Cat> {
     const createdCat = await this.catsService.create(args);
-    // pubSub.publish('catCreated', { catCreated: createdCat });
+    pubSub.publish('catCreated', { catCreated: createdCat });
     return createdCat;
   }
 
@@ -50,7 +56,27 @@ export class CatsResolvers {
     };
   }
   @ResolveProperty('dog')
-  async getDog(){
+  async getDog() {
     return await this.dogsService.findAll()
+  }
+  @Query()
+  allPosts(obj, args, context, info) {
+    return this.postData
+  }
+  @Mutation('createPost')
+  createPost(obj, args, context, info) {
+    let result = {
+      id: (this.postData.length+1).toString(),
+      imageUrl: args.imageUrl,
+      description: args.description,
+    } 
+    this.postData.push(result)
+    return result
+  } 
+  @Subscription('Post') 
+  Post(){
+    return { 
+      subscribe: () => pubSub.asyncIterator('Post')
+    }
   }
 }

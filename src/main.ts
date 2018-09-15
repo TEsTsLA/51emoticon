@@ -30,7 +30,17 @@ async function bootstrap() {
   // console.log(catServer._cat())
   await app.startAllMicroservicesAsync();
   
-  await app.use(express.static('public', { maxAge: 7 * 24 * 60 * 60 * 1000 }));
+  await app.use(express.static('public', { 
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    setHeaders: function (res, path, stat) {
+      // console.log('GET STATIC RESOURCE')
+      // res.set("Access-Control-Allow-Origin", "*");
+      // res.set("Access-Control-Allow-Headers", "X-Requested-With");
+      // res.set("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+      // res.set("X-Powered-By",' 3.2.1')
+      // res.set("Content-Type", "application/json;charset=utf-8");
+    }
+   }));
   // app.useStaticAssets(__dirname + '/public');
   await app.use(compression());
   await app.use(cookieParser());

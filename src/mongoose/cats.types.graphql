@@ -53,4 +53,20 @@ type Comment {
 
 type Subscription {
   commentAdded(repoFullName: String!): Comment
+  Post(filter:mutation_in):[PostVue]
+}
+
+type mutation_in{
+  mutation_in:[String]
+}
+type Query {
+  allPosts:[PostVue]
+}
+type PostVue{
+    id:String
+    imageUrl:String
+    description:String
+}
+type Mutation{
+  createPost(description:String!,imageUrl:String!):PostVue
 }

@@ -14,9 +14,12 @@ import { HeroModule } from './rpc/hero.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CatsModule } from './mongoose/cats.module';
 import { GraphQLJSON  } from 'graphql-type-json';
+import { SubscriptionsService } from './mongoose/subscription/subscriptions.service';
+import { SubscriptionsModule } from './mongoose/subscription/subscriptions.module';
 
 @Module({
   imports: [LayoutModule, ResourceModule,EventsModule, 
+    SubscriptionsModule.forRoot(),
     TypeOrmModule.forRoot(),GraphQLModule,
     MathModule,HeroModule,CatsModule,
     MongooseModule.forRoot('mongodb://localhost:27017/test'),],
@@ -25,6 +28,7 @@ import { GraphQLJSON  } from 'graphql-type-json';
 })
 export class AppModule implements NestModule {
   constructor(private readonly connection: Connection,
+    private readonly subscriptionsService: SubscriptionsService,
     private readonly graphQLFactory: GraphQLFactory) {
     // console.log(connection)
   }
@@ -42,13 +46,13 @@ export class AppModule implements NestModule {
   // }
   public configure(consumer: MiddlewareConsumer) {
     const schema = this.createSchema();
-    // this.subscriptionsService.createSubscriptionServer(schema);
+    this.subscriptionsService.createSubscriptionServer(schema);
 
     consumer
       .apply(
         graphiqlExpress({
           endpointURL: '/graphql',
-          // subscriptionsEndpoint: `ws://localhost:3001/subscriptions`,
+          subscriptionsEndpoint: `ws://localhost:3001/subscriptions`,
         }),
       )
       .forRoutes('/graphiql')
