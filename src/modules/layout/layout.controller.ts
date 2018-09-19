@@ -57,7 +57,7 @@ export class LayoutController {
   @Get('mvc')
   @Render('index')
   moveCursor() {
-    return { message: 'Hello world!' };
+    return { message: 'Hello-world!' };
   }
   @Post('add')
   add(
