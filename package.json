@@ -15,7 +15,8 @@
     "test:cov": "jest --coverage",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "webpack": "webpack --config webpack.config.js",
-    "debug":"node --inspect-brk -r ts-node/register src/main.ts"
+    "debug": "node --inspect-brk -r ts-node/register src/main.ts",
+    "nodemon": "nodemon"
   },
   "dependencies": {
     "@nestjs/common": "^5.0.0",
